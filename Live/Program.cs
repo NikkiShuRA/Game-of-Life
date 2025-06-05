@@ -2,9 +2,16 @@
 
 class Game
 {
-    static string[,] place = new string[,] { { "0", "+", "0", },
-                                             { "0", "+", "0", },
-                                             { "0", "+", "0", },
+    static string[,] place = new string[,] { { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" },
+                                             { "+", "0", "+", "0", "0", "0", "0", "0", "0", "0" },
+                                             { "0", "+", "+", "0", "0", "0", "0", "0", "0", "0" },
+                                             { "0", "+", "0", "0", "0", "0", "0", "0", "0", "0" },
+                                             { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" },
+                                             { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" },
+                                             { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" },
+                                             { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" },
+                                             { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" },
+                                             { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" },
     };
     static string[,] placeUpdate = (string[,])place.Clone();
 
@@ -13,9 +20,10 @@ class Game
 
     static void Main()
     {
-        Console.WriteLine($"row {arrayRow} column {arrayColumn}");
         while (true)
         {
+            Console.Clear();
+            Console.WriteLine($"row {arrayRow} column {arrayColumn}");
             PrintArray();
             ArrayUpdate();
             place = (string[,])placeUpdate.Clone();
@@ -54,12 +62,15 @@ class Game
                 int newRow = row - i + 1;
                 int newColumn = column - j + 1;
                 if ((newRow, newColumn) == (row, column)) continue;
-                if ((newRow < 0 || newRow > arrayRow - 1) || (newColumn < 0 || newColumn > arrayColumn - 1)) continue;
+
+                if (newRow < 0 || newRow > arrayRow - 1) newRow = Math.Abs(Math.Abs(newRow) - arrayRow);
+                if (newColumn < 0 || newColumn > arrayColumn - 1) newColumn = Math.Abs(Math.Abs(newColumn) - arrayColumn); ;
+
                 if (place[newRow, newColumn] == "+") countLiveObject++;
             }
         }
 
-        if ((itLive && countLiveObject >= 2) || countLiveObject >= 3) 
+        if ((itLive && countLiveObject >= 2 && countLiveObject <= 3) || (!itLive && countLiveObject == 3))
         {
             return true;
         }
